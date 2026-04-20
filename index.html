@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>كفاءة لغد مستدام</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="asst/css/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Changa:wght@200..800&family=Lobster+Two:ital,wght@0,400;0,700;1,400;1,700&family=Noto+Kufi+Arabic:wght@100..900&family=Playpen+Sans+Arabic:wght@100..800&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div id="preloader"></div>
+
+    <script>
+
+    </script>
+    <header class="main-header" id="header">
+        <div class="header-left">
+            <div id="languageToggle"
+                class="lang-switch cursor-pointer transition-all hover:text-blue-400 font-bold px-3 py-1 border border-white/10 rounded-lg bg-white/5">
+                EN
+            </div>
+            <button class="suppliers-btn">
+                <span class="lang-text" data-en="Suppliers">الموردين</span>
+                <i class="fas fa-users"></i>
+            </button>
+        </div>
+        <div class="header-center">
+            <div class="logo-container">
+                <img src="./asst/Renewable energy.gif" class="Gif">
+            </div>
+        </div>
+
+        <div class="header-right">
+            <div id="theme-toggle" class="moon-icon cursor-pointer p-2 rounded-full hover:bg-white/10 transition-all">
+                <i class="fas fa-moon"></i>
+            </div>
+
+            <div class="menu-toggle" id="openMenu">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+    <section class="hero-section">
+        <video autoplay muted loop playsinline class="back-video">
+            <source src="images/solar energy.mp4" type="video/mp4">
+        </video>
+        <div class="overlay"></div>
+        <div class="content">
+            <h1 class="main-title lang-text" data-en="Save on your bill.. protect your environment🌱">
+                وَفِّرْ فِي فَاتُورَتِكَ.. وَاحْمِ بِيئَتَكَ🌱
+            </h1>
+            <button class="calc-btn button-main">
+                <span class="calc-icon">
+                    <i class="fas fa-calculator"></i>
+                </span>
+                <span class="lang-text" data-en="Calculate consumption">احسب استهلاكك</span>
+            </button>
+        </div> <!-- content -->
+    </section>
+    <style>
+        .hero-section {
+            position: relative;
+            height: 100vh;
+            width: 100%;
+            overflow: hidden;
+            /* تأكد إن الخلفية هنا شفافة عشان متغطيش على الفيديو */
+            background: transparent !important;
+        }
+
+        .back-video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            /* ارفع الـ z-index لحاجة سالبة بس واضحة */
+            z-index: -2;
+            object-fit: cover;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* z-index بين الفيديو والمحتوى */
+            z-index: -1;
+            background: rgba(0, 0, 0, 0.4);
+            transition: background 0.4s ease;
+        }
+
+        /* في حالة الـ Dark Mode تأكد إن الـ Body مش واخد خلفية بتغطي الـ Hero */
+        body.dark-mode .hero-section {
+            background: transparent !important;
+        }
+
+        .content {
+            position: relative;
+            z-index: 1;
+            /* عشان الكلام يظهر فوق كل حاجة */
+        }
+
+        body.dark-mode header {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+        }
+    </style>
+    <div id="energy-modal"
+        class="fixed inset-0 z-[99999] hidden items-center justify-center p-4 bg-[#030712]/90 backdrop-blur-md">
+        <div class="max-w-md w-full bg-[#1f2937]/50 border border-blue-500/30 rounded-[2rem] p-8 shadow-[0_0_50px_-12px_rgba(59,130,246,0.5)] relative text-white overflow-hidden"
+            dir="rtl">
+
+            <div class="absolute -top-24 -left-24 w-48 h-48 bg-blue-600/20 blur-[80px]"></div>
+
+            <button id="closeModalBtn"
+                class="absolute top-5 left-5 text-gray-400 hover:text-blue-400 transition-colors z-10">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+
+            <div id="quiz-content" class="relative z-10 animate-fade-in">
+                <div class="flex justify-between items-end mb-6">
+                    <div>
+                        <h1
+                            class="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">
+                            احسب استهلاكك</h1>
+                        <p class="text-xs text-blue-300/60 mt-1">حلل استهلاكك في ثوانٍ</p>
+                    </div>
+                    <span id="step-num"
+                        class="text-sm font-mono bg-blue-500/20 text-blue-300 px-4 py-1.5 rounded-full border border-blue-500/30 shadow-[0_0_15px_rgba(59,130,246,0.2)]">1
+                        / 5</span>
+                </div>
+
+                <div class="w-full bg-gray-800/50 h-2 rounded-full mb-10 p-[2px] border border-white/5">
+                    <div id="bar"
+                        class="bg-gradient-to-r from-blue-600 via-blue-400 to-cyan-400 h-full rounded-full transition-all duration-700 shadow-[0_0_15px_rgba(59,130,246,0.6)]"
+                        style="width: 20%"></div>
+                </div>
+
+                <h2 id="q-text" class="text-xl font-bold mb-8 leading-relaxed min-h-[3.5rem] drop-shadow-sm"></h2>
+                <div id="options-list" class="space-y-4">
+                </div>
+            </div>
+
+            <div id="result-content" class="hidden text-center relative z-10 animate-scale-up">
+                <div class="relative inline-block mb-6">
+                    <div class="absolute inset-0 bg-blue-500 blur-[40px] opacity-30 animate-pulse"></div>
+                    <div id="status-icon" class="text-6xl relative z-10 mb-2"></div>
+                </div>
+
+                <h2 class="text-3xl font-black mb-2 text-white">تحليلك النهائي</h2>
+                <p id="rating-label" class="text-blue-400 font-bold tracking-widest text-sm uppercase mb-8"></p>
+
+                <div class="bg-blue-500/5 border border-blue-500/20 p-6 rounded-3xl mb-8 backdrop-blur-xl">
+                    <p class="text-gray-400 text-sm mb-2">الاستهلاك التقديري شهرياً</p>
+                    <div class="flex items-center justify-center gap-2">
+                        <span id="user-val"
+                            class="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-blue-200"></span>
+                        <span class="text-blue-400 font-bold">kWh</span>
+                    </div>
+                </div>
+
+                <div class="p-4 rounded-2xl bg-white/5 border border-white/5 mb-8">
+                    <p id="advice-text" class="text-sm leading-relaxed text-gray-300"></p>
+                </div>
+
+                <button onclick="closeEnergyModal()"
+                    class="w-full py-4 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-bold rounded-2xl transition-all shadow-[0_10px_20px_-5px_rgba(59,130,246,0.5)] active:scale-95">
+                    فهمت ذلك
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        @keyframes fade-in {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes scale-up {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .animate-fade-in {
+            animation: fade-in 0.5s ease-out forwards;
+        }
+
+        .animate-scale-up {
+            animation: scale-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .option-btn-blue {
+            width: 100%;
+            padding: 1.25rem;
+            text-align: right;
+            border-radius: 1.25rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            color: #d1d5db;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .option-btn-blue:hover {
+            background: rgba(59, 130, 246, 0.1);
+            border-color: rgba(59, 130, 246, 0.5);
+            color: white;
+            transform: translateX(-5px);
+            box-shadow: -5px 0 20px rgba(59, 130, 246, 0.1);
+        }
+
+        .option-btn-blue::after {
+            content: '←';
+            position: absolute;
+            left: 20px;
+            opacity: 0;
+            transition: 0.3s;
+        }
+
+        .option-btn-blue:hover::after {
+            opacity: 1;
+        }
+    </style>
+    <section class="twfer">
+        <div class="twfer-container">
+            <div class="card active" style="background-image: url(./images/wind\ energy.jpg);">
+                <div class="content-twfer">
+                    <h3 class="lang-text" data-en="Energy efficiency consultancy">استشارات كفاءة الطاقة</h3>
+                    <p class="lang-text"
+                        data-en="The program provides integrated consulting services to improve energy consumption efficiency in the target facilities.">
+                        يقدم البرنامج خدمات استشارية متكاملة لرفع كفاءة استهلاك الطاقة في المنشآت المستهدفة...
+                    </p>
+                </div>
+            </div>
+
+            <div class="card" style="background-image: url(./images/solar\ energy\ .jpg);">
+                <div class="content-twfer">
+                    <h3 class="lang-text" data-en="Solar Photovoltaic Program">برنامج الطاقة الشمسية الكهروضوئية</h3>
+                    <p class="lang-text"
+                        data-en="Developing and implementing renewable energy solutions through the installation of innovative solar cell systems.">
+                        تطوير وتنفيذ حلول الطاقة المتجددة عبر تركيب أنظمة الخلايا الشمسية المبتكرة...
+                    </p>
+                </div>
+            </div>
+
+            <div class="card" style="background-image: url(./images/building.jpg);">
+                <div class="content-twfer">
+                    <h3 class="lang-text" data-en="Building & Facility Retrofit Program">برنامج إعادة تأهيل المباني
+                        والمرافق</h3>
+                    <p class="lang-text"
+                        data-en="Implementing modern technologies to rationalize electricity consumption in government and private buildings.">
+                        نقوم بتنفيذ تقنيات حديثة لترشيد استهلاك الكهرباء في المباني الحكومية والخاصة...
+                    </p>
+                </div>
+            </div>
+
+            <div class="card" style="background-image: url(./images/streetlights.jpg);">
+                <div class="content-twfer">
+                    <h3 class="lang-text" data-en="Street Lighting Retrofit Program">برنامج إعادة تأهيل إنارة الشوارع
+                    </h3>
+                    <p class="lang-text"
+                        data-en="A national project aiming to replace traditional lighting with energy-efficient LED technologies.">
+                        مشروع وطني يهدف لاستبدال الإنارة التقليدية بتقنيات LED الموفرة للطاقة...
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- twfer -->
+
+    <section class="indicators">
+        <div class="container-indicator">
+            <div class="stats-side">
+                <h2 class="second-title lang-text" data-en="Indicators">المؤشرات</h2>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">🚀</div>
+                        <div class="stat-info">
+                            <span class="stat-number">600</span>
+                            <span class="stat-label lang-text" data-en="Number of Projects">عدد المشروعات</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">🏢</div>
+                        <div class="stat-info">
+                            <span class="stat-number lang-text" data-en="37K">37 ألف</span>
+                            <span class="stat-label lang-text" data-en="Number of Buildings">عدد المباني</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">💡</div>
+                        <div class="stat-info">
+                            <span class="stat-number lang-text" data-en="4.3M">4.3 مليون</span>
+                            <span class="stat-label lang-text" data-en="Number of LED Bulbs">عدد مصابيح الـ LED</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">⚡</div>
+                        <div class="stat-info">
+                            <span class="stat-number lang-text" data-en="8.1B">8.1 مليار</span>
+                            <span class="stat-label lang-text" data-en="Energy Savings (kWh)">وفر الطاقة (كيلو
+                                واط)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <h2 class="second-title secondary lang-text" data-en="Environmental Indicators">المؤشرات البيئية</h2>
+
+                <div class="env-stats">
+                    <div class="env-item">
+                        <div class="env-icon">🛢️</div>
+                        <div class="env-text">
+                            <span class="stat-number lang-text" data-en="13 Million">13 مليون</span>
+                            <p class="lang-text" data-en="Barrels of oil avoided">تفادي استهلاك برميل نفط</p>
+                        </div>
+                    </div>
+
+                    <div class="env-item">
+                        <div class="env-icon">🌳</div>
+                        <div class="env-text">
+                            <span class="stat-number lang-text" data-en="77 Million">77 مليون</span>
+                            <p class="lang-text" data-en="Seedlings / Year (Equivalent Environmental Impact)">شتلة /
+                                سنوياً (الأثر البيئي الموازي)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="map-side">
+                <img src="images/map .png" alt="Egypt Map" class="egypt-map">
+
+                <div class="map-dot dot-cairo" style="top: 32%; left: 65%;" title="Cairo"></div>
+                <div class="map-dot dot-alex" style="top: 30%; left: 50%;" title="Alexandria"></div>
+                <div class="map-dot" style="top: 25%; left: 30%;" title="Port Said"></div>
+                <div class="map-dot" style="top: 22%; left: 62%;" title="Ismailia"></div>
+                <div class="map-dot" style="top: 23%; left: 18%;" title="Tanta"></div>
+                <div class="map-dot" style="top: 90%; left: 58%;" title="Arish"></div>
+                <div class="map-dot" style="top: 35%; left: 20%;" title="Sharm El Sheikh"></div>
+                <div class="map-dot" style="top: 45%; left: 75%;" title="Hurghada"></div>
+                <div class="map-dot" style="top: 40%; left: 50%;" title="Minya"></div>
+                <div class="map-dot" style="top: 75%; left: 58%;" title="Asyut"></div>
+                <div class="map-dot" style="top: 55%; left: 63%;" title="Qena"></div>
+                <div class="map-dot" style="top: 62%; left: 64%;" title="Luxor"></div>
+                <div class="map-dot dot-aswan" style="top: 75%; left: 70%;" title="Aswan"></div>
+                <div class="map-dot" style="top: 30%; left: 40%;" title="Matrouh"></div>
+                <div class="map-dot" style="top: 50%; left: 45%;" title="Oasis"></div>
+                <div class="map-dot" style="top: 85%; left: 50%;" title="Toshka"></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="energy-efficiency">
+        <h2 class="section-title lang-text" data-en="?How do we implement energy efficiency projects">
+            كيف ننفذ مشروعات كفاءة الطاقة؟
+        </h2>
+
+        <div class="container-energy">
+            <div class="card-energy">
+                <div class="icon-wrapper">
+                    <i class="fa-solid fa-file-export"></i>
+                </div>
+                <h3 class="main lang-text" data-en="Develop">نطور</h3>
+                <p class="lang-text"
+                    data-en="We have a specialized team searching for high-potential projects that contribute to energy saving in the government and commercial sectors through fair and transparent tenders.">
+                    نمتلك فريقاً متخصصاً في البحث عن المشروعات ذات الإمكانات القوية والتي تساهم في توفير الطاقة في
+                    القطاعين الحكومي والتجاري من خلال طرح مناقصات عادلة وشفافة.
+                </p>
+            </div>
+
+            <div class="card-energy">
+                <div class="icon-wrapper">
+                    <i class="fa-solid fa-coins"></i>
+                </div>
+                <h3 class="main lang-text" data-en="Fund">نمول</h3>
+                <p class="lang-text"
+                    data-en="We distribute capital directly to projects we invest in to cover initial costs of energy efficiency measures, using private capital or co-financing with qualified partners.">
+                    نقوم بتوزيع رأس المال مباشرة إلى المشروعات التي نستثمرها لتغطية التكاليف الأولية لتدابير كفاءة
+                    الطاقة، عبر استخدام رأس المال الخاص أو التمويل المشترك مع شركاء مؤهلين.
+                </p>
+            </div>
+
+            <div class="card-energy">
+                <div class="icon-wrapper">
+                    <i class="fa-solid fa-gears"></i>
+                </div>
+                <h3 class="main lang-text" data-en="Manage">ندير</h3>
+                <p class="lang-text"
+                    data-en="We take a leadership and hands-on approach to energy efficiency projects through active management throughout the project duration, ensuring risk management and capitalising on opportunities.">
+                    نتبع نهجاً قيادياً وعملياً في مشروعات كفاءة الطاقة من خلال الإدارة النشطة طوال مدة المشروع، حيث يضمن
+                    فريقنا إدارة المخاطر المحتملة والاستفادة من الفرص المتاحة للمشروع.
+                </p>
+            </div>
+        </div>
+    </section>
+    <!-- AI Assistant Widget -->
+    <div id="ai-assistant-container"
+        style="position: fixed; bottom: 20px; right: 20px; z-index: 999999; font-family: 'Noto Kufi Arabic', sans-serif;">
+        <button id="ai-assistant-toggle"
+            style="width: 60px; height: 60px; border-radius: 50%; background-color: #00e676; border: none; color: white; font-size: 24px; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; transition: transform 0.3s ease;">
+            <i class="fas fa-comment-dots"></i>
+        </button>
+        <div id="ai-assistant-window"
+            style="display: none; position: absolute; bottom: 80px; right: 0; width: 350px; height: 500px; background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.2); border: 1px solid #eee;">
+            <div
+                style="background: #00e676; color: white; padding: 15px; display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-weight: bold;">المساعد الذكي</span>
+                <button id="ai-assistant-close"
+                    style="background: none; border: none; color: white; cursor: pointer; font-size: 18px;"><i
+                        class="fas fa-times"></i></button>
+            </div>
+            <iframe src="https://ddxahmed.github.io/Ai-V1/"
+                style="width: 100%; height: calc(100% - 50px); border: none;"></iframe>
+        </div>
+    </div>
+
+    <!-- <script>
+        const assistantToggle = document.getElementById('ai-assistant-toggle');
+        const assistantClose = document.getElementById('ai-assistant-close');
+        const assistantWindow = document.getElementById('ai-assistant-window');
+
+        if (assistantToggle) {
+            assistantToggle.addEventListener('click', function (e) {
+                e.stopPropagation();
+                const currentDisp = assistantWindow.style.display;
+                if (currentDisp === 'none' || currentDisp === '') {
+                    assistantWindow.style.display = 'block';
+                    this.style.transform = 'scale(0.9)';
+                } else {
+                    assistantWindow.style.display = 'none';
+                    this.style.transform = 'scale(1)';
+                }
+            });
+        }
+
+        if (assistantClose) {
+            assistantClose.addEventListener('click', function () {
+                assistantWindow.style.display = 'none';
+                assistantToggle.style.transform = 'scale(1)';
+            });
+        }
+    </script> -->
+
+
+    <script>
+
+        /* =========================Language Switch==========================*/
+        const langSwitch = document.getElementById('languageToggle');
+
+        if (langSwitch) {
+            langSwitch.onclick = function () {
+                const isArabic = this.innerText === 'EN';
+                const textsToTranslate = document.querySelectorAll('.lang-text');
+
+                if (isArabic) {
+                    this.innerText = 'AR';
+                    document.documentElement.dir = 'ltr';
+                    textsToTranslate.forEach(el => {
+                        if (!el.getAttribute('data-ar')) el.setAttribute('data-ar', el.innerText);
+                        el.innerText = el.getAttribute('data-en');
+                    });
+                } else {
+                    this.innerText = 'EN';
+                    document.documentElement.dir = 'rtl';
+                    textsToTranslate.forEach(el => {
+                        el.innerText = el.getAttribute('data-ar');
+                    });
+                }
+            };
+        }
+        /*========================================== Calc Power===================================*/
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const modal = document.getElementById('energy-modal');
+            const calcBtns = document.querySelectorAll('.calc-btn');
+            const closeBtn = document.getElementById('closeModalBtn');
+
+            // 5 أسئلة شاملة
+            const questions = [
+                { q: "ما هو نوع الإضاءة الرئيسي في منزلك؟", options: [{ t: "مصابيح LED بالكامل", p: 10 }, { t: "خليط بين LED وعادي", p: 40 }, { t: "مصابيح عادية (توهج)", p: 90 }] },
+                { q: "كم ساعة يعمل التكييف يومياً في الصيف؟", options: [{ t: "لا أستخدم تكييف", p: 0 }, { t: "من 1 إلى 4 ساعات", p: 120 }, { t: "أكثر من 6 ساعات", p: 250 }] },
+                { q: "كيف تعتمد على السخان الكهربائي؟", options: [{ t: "سخان غاز / شمسي", p: 0 }, { t: "يعمل وقت الاستخدام فقط", p: 50 }, { t: "يعمل طوال اليوم", p: 150 }] },
+                { q: "عدد الأجهزة الثقيلة (غسالة، مجفف، غسالة أطباق)؟", options: [{ t: "جهاز واحد أو أقل", p: 30 }, { t: "من 2 إلى 3 أجهزة", p: 80 }, { t: "أكثر من 3 أجهزة", p: 160 }] },
+                { q: "هل تقوم بفصل الأجهزة غير المستخدمة من القابس؟", options: [{ t: "دائماً (موفر جداً)", p: -10 }, { t: "أحياناً", p: 10 }, { t: "نادراً", p: 40 }] }
+            ];
+
+            let currentStep = 0;
+            let totalScore = 0;
+
+            function renderQuestion() {
+                const qText = document.getElementById('q-text');
+                const list = document.getElementById('options-list');
+                const bar = document.getElementById('bar');
+                const stepNum = document.getElementById('step-num');
+
+                const curr = questions[currentStep];
+                qText.classList.remove('animate-fade-in');
+                void qText.offsetWidth; // Trigger reflow
+                qText.classList.add('animate-fade-in');
+
+                qText.innerText = curr.q;
+                stepNum.innerText = `${currentStep + 1} / ${questions.length}`;
+                bar.style.width = ((currentStep + 1) / questions.length) * 100 + "%";
+
+                list.innerHTML = '';
+                curr.options.forEach((opt, index) => {
+                    const btn = document.createElement('button');
+                    btn.className = "option-btn-blue animate-fade-in";
+                    btn.style.animationDelay = (index * 0.1) + "s";
+                    btn.innerText = opt.t;
+                    btn.onclick = () => {
+                        totalScore += opt.p;
+                        if (++currentStep < questions.length) renderQuestion(); else showFinalResult();
+                    };
+                    list.appendChild(btn);
+                });
+            }
+
+            function showFinalResult() {
+                document.getElementById('quiz-content').classList.add('hidden');
+                const resultUI = document.getElementById('result-content');
+                resultUI.classList.remove('hidden');
+
+                const valEl = document.getElementById('user-val');
+                const advice = document.getElementById('advice-text');
+                const icon = document.getElementById('status-icon');
+                const label = document.getElementById('rating-label');
+
+                // انيميشن الرقم (Counter Effect)
+                let count = 0;
+                const target = totalScore < 0 ? 0 : totalScore;
+                const speed = target / 50;
+                const timer = setInterval(() => {
+                    count += speed;
+                    if (count >= target) {
+                        valEl.innerText = Math.floor(target);
+                        clearInterval(timer);
+                    } else {
+                        valEl.innerText = Math.floor(count);
+                    }
+                }, 20);
+
+                if (target > 350) {
+                    icon.innerText = "🔥";
+                    label.innerText = "استهلاك مرتفع جداً";
+                    label.className = "text-red-400 font-bold tracking-widest text-sm uppercase mb-8";
+                    advice.innerText = "أنت تنفق الكثير! ننصحك فوراً بفحص الأجهزة القديمة والتحول للطاقة الشمسية لتوفير 70% من فاتورتك.";
+                } else if (target > 150) {
+                    icon.innerText = "⚡";
+                    label.innerText = "استهلاك متوسط";
+                    label.className = "text-blue-400 font-bold tracking-widest text-sm uppercase mb-8";
+                    advice.innerText = "استهلاكك في النطاق الطبيعي، ولكن يمكنك تقليله أكثر باستبدال ما تبقى من مصابيح بـ LED وفصل الأجهزة ليلاً.";
+                } else {
+                    icon.innerText = "🌿";
+                    label.innerText = "بطل توفير الطاقة";
+                    label.className = "text-emerald-400 font-bold tracking-widest text-sm uppercase mb-8";
+                    advice.innerText = "مذهل! أنت صديق للبيئة وموفر محترف. حافظ على هذا الأداء الرائع.";
+                }
+            }
+
+            window.closeEnergyModal = () => { modal.style.display = 'none'; };
+
+            calcBtns.forEach(btn => {
+                btn.onclick = (e) => {
+                    e.preventDefault();
+                    modal.style.display = 'flex';
+                    currentStep = 0; totalScore = 0;
+                    document.getElementById('quiz-content').classList.remove('hidden');
+                    document.getElementById('result-content').classList.add('hidden');
+                    renderQuestion();
+                };
+            });
+
+            if (closeBtn) closeBtn.onclick = closeEnergyModal;
+            window.onclick = (e) => { if (e.target == modal) closeEnergyModal(); };
+        });
+        ML = '';
+
+        /*============================== Change Color Theme ======================================*/
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = themeToggle.querySelector('i');
+
+        if (themeToggle) {
+            themeToggle.onclick = function () {
+                document.body.classList.toggle('dark-theme');
+                if (document.body.classList.contains('dark-theme')) {
+                    themeIcon.classList.remove('fa-moon');
+                    themeIcon.classList.add('fa-sun');
+                    themeIcon.style.color = '#facc15';
+                } else {
+                    themeIcon.classList.remove('fa-sun');
+                    themeIcon.classList.add('fa-moon');
+                    themeIcon.style.color = '';
+                }
+
+                const currentTheme = document.body.classList.contains('dark-theme') ? 'dark' : 'light';
+                localStorage.setItem('theme', currentTheme);
+            };
+        }
+
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-theme');
+            themeIcon.classList.replace('fa-moon', 'fa-sun');
+            themeIcon.style.color = '#facc15';
+        }
+
+    </script>
+
+    <script src="/asst/js/script.js"></script>
+</body>
+
+</html>
