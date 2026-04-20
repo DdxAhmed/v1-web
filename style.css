@@ -1,0 +1,716 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    list-style: none;
+}
+
+body {
+    font-family: "Noto Kufi Arabic", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: weight;
+    font-style: normal;
+    font-variation-settings:
+        "slnt" 0;
+    margin: 0;
+}
+
+#preloader {
+    position: fixed;
+    width: 100%;
+    background: rgb(0, 0, 0) url(/asst/Renewable\ energy.gif) center no-repeat;
+    background-size: 100px;
+    z-index: 9999999999;
+    height: 100vh;
+    transition: opacity 0.5s ease-in-out;
+
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+:root {
+    --bg-color: #ffffff;
+    --text-color: #1f2937;
+    --card-bg: #f3f4f6;
+}
+
+
+body.dark-theme {
+    --bg-color: #0f172a;
+    --text-color: #f8fafc;
+    --card-bg: #1e293b;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+body.dark-theme section {
+    background-color: var(--bg-color);
+}
+
+body.dark-theme .card-energy,
+body.dark-theme .stat-card {
+    background-color: var(--card-bg);
+    color: white;
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode section .section-title {
+    color: white;
+}
+
+body.dark-mode .overlay {
+    background: rgba(0, 0, 0, 0.7);
+}
+
+.hero-section {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0 10%;
+    overflow: hidden;
+    color: white;
+}
+
+.back-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -2;
+}
+
+.hero-section .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(0, 0, 0, 0.3);
+    z-index: -1;
+}
+
+.logo-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    line-height: 0.9;
+}
+
+.Gif {
+    height: 50px;
+}
+
+.arabic-text {
+    font-family: "Noto Kufi Arabic", sans-serif;
+    font-weight: 500;
+    font-size: 30px;
+    color: white;
+    margin-bottom: 2px;
+}
+
+.english-text {
+    font-family: "Noto Kufi Arabic", sans-serif;
+    font-weight: 600;
+    font-size: 38px;
+    color: white;
+    letter-spacing: -1px;
+    text-transform: lowercase;
+}
+
+.main-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 10%;
+    z-index: 1000;
+    box-sizing: border-box;
+    background-color: transparent;
+}
+
+#header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    background: transparent;
+    transition: all 0.1s ease;
+}
+
+#header.header-scrolled {
+    background: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid #ddd;
+}
+
+.dark-mode #header.header-scrolled {
+    background: rgba(15, 23, 42, 0.7) !important;
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    border-bottom: 1px solid rgba(59, 130, 246, 0.4);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+.header-scrolled .main-title,
+.header-scrolled .calc-btn,
+.header-scrolled .calc-icon,
+.header-scrolled .lang-switch,
+.header-scrolled .suppliers-btn {
+    color: black !important;
+}
+
+.header-scrolled .calc-icon {
+    background-color: #1a237e;
+    color: white;
+}
+
+.header-scrolled .suppliers-btn {
+    background-color: #00e676;
+    color: white;
+}
+
+.header-scrolled .lang-switch {
+    border-color: #00e676;
+    color: #00e676;
+}
+
+.header-scrolled .moon-icon {
+    color: black;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+
+
+.lang-switch {
+    direction: ltr;
+}
+
+.suppliers-btn {
+    background-color: #00e676;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-size: large;
+}
+
+.main-logo {
+    height: 50px;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.menu-toggle {
+    width: 40px;
+    height: 40px;
+    background-color: #00e676;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+
+.moon-icon {
+    font-size: 2rem;
+    color: white;
+    cursor: pointer;
+    opacity: 0.9;
+}
+
+.content {
+
+    margin-top: 500px;
+    margin-bottom: 100px;
+    padding: 20px;
+    width: 100%;
+    height: 100vh;
+}
+
+.main-title {
+    display: flex;
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin: 40px;
+    text-shadow: 2px 2px 10px rgb(0, 0, 0, 0.5);
+}
+
+.calc-btn {
+    background-color: transparent;
+    color: #ffffff;
+    border: 2px solid #00e676;
+    padding: 12px 30px;
+    border-radius: 30px;
+    font-size: 1.2rem;
+    font-family: 'Tajawal', sans-serif;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 230, 118, 0.2);
+    margin-right: 50px;
+}
+
+.calc-icon {
+    background-color: #00e676;
+    color: #1a237e;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 0.9rem;
+}
+
+.button-main {
+    animation: float 3s ease-in-out infinite;
+    box-shadow: 0 0 10px #00e676, 0 0 20px rgba(0, 230, 118, 0.4);
+    transition: 0.3s;
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+        box-shadow: 0 0 10px #00e676, 0 0 20px rgba(0, 230, 118, 0.3);
+    }
+
+    50% {
+        transform: translateY(-10px);
+        box-shadow: 0 0 20px #00e676, 0 0 40px rgba(0, 230, 118, 0.6);
+    }
+}
+
+.calc-btn:hover {
+    background-color: #00e676;
+    color: #1a237e;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 230, 118, 0.4);
+}
+
+.calc-btn:hover .calc-icon {
+    background-color: #1a237e;
+    color: #00e676;
+}
+
+
+
+@media (max-width: 768px) {
+
+    /* --- هيدر الموبايل --- */
+    .main-header {
+        padding: 15px;
+    }
+
+    .header-right {
+        order: 1;
+        /* جعلها على اليمين */
+        gap: 10px;
+    }
+
+    .logo-container {
+        order: 2;
+        /* جعل الشعار في المنتصف */
+        flex-grow: 1;
+        text-align: center;
+        height: 40px;
+        /* تصغير الشعار قليلاً للموبايل */
+    }
+
+    .header-left {
+        order: 3;
+        gap: 10px;
+    }
+
+    .suppliers-btn {
+        padding: 8px 15px;
+        font-size: 0.9rem;
+    }
+
+    .hero-section {
+        height: 100vh;
+        padding: 120px 20px 60px;
+    }
+
+    .hero-section .content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .hero-section h1 {
+        font-size: 2rem;
+        line-height: 1.3;
+        margin-bottom: 10px;
+    }
+
+    .calc-btn {
+        width: 100%;
+        max-width: 300px;
+        text-align: center;
+    }
+}
+
+.twfer {
+    padding: 10% 20px;
+}
+
+.twfer-container {
+    font-family: "Noto Kufi Arabic", sans-serif;
+    display: flex;
+    width: 100%;
+    height: 700px;
+    gap: 10px;
+    padding: 20px;
+    direction: rtl;
+}
+
+.card {
+    position: relative;
+    flex: 1;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    border-radius: 15px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+    display: flex;
+    align-items: flex-end;
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, transparent 60%);
+    z-index: 1;
+}
+
+.card:hover {
+    flex: 3;
+}
+
+.content-twfer {
+    position: relative;
+    z-index: 2;
+    padding: 25px;
+    color: white;
+    width: 100%;
+}
+
+.content-twfer h3 {
+    font-size: 1.6rem;
+    margin-bottom: 10px;
+    white-space: wrap;
+    font-weight: bolder;
+}
+
+.content-twfer p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.4s ease 0.2s;
+    max-width: 80%;
+}
+
+.card:hover .content-twfer p {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+    .twfer-container {
+        flex-direction: column;
+        height: 800px;
+    }
+
+    .card:hover {
+        flex: 5;
+    }
+}
+
+
+:root {
+    --primary-blue: #004a99;
+    --light-blue: #007bff;
+    --accent-cyan: #00d2d3;
+    --white: #ffffff;
+}
+
+.indicators {
+    background: linear-gradient(135deg, var(--primary-blue), #002b5c);
+    padding: 60px 20px;
+    direction: rtl;
+    /* لضبط الاتجاه من اليمين لليسار */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: var(--white);
+    overflow: hidden;
+}
+
+.container-indicator {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 40px;
+}
+
+.stats-side {
+    flex: 1;
+    min-width: 300px;
+}
+
+.second-title {
+    font-size: 28px;
+    margin-bottom: 25px;
+    border-right: 4px solid var(--accent-cyan);
+    padding-right: 15px;
+    font-weight: 700;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-bottom: 40px;
+}
+
+.stat-card {
+    font-family: "Noto Kufi Arabic", sans-serif;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    padding: 20px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: transform 0.3s;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.stat-number {
+    display: block;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.stats-icon {
+    font-size: 40px;
+}
+
+.stat-label {
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+.env-stats {
+    display: flex;
+    gap: 30px;
+}
+
+.env-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.env-icon {
+    font-size: 28px;
+}
+
+.map-side {
+    flex: 1;
+    position: relative;
+    text-align: center;
+}
+
+.egypt-map {
+    width: 100%;
+    max-width: 500px;
+    filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.3)) brightness(1.2);
+    filter: invert(48%) sepia(79%) saturate(2476%) hue-rotate(150deg) brightness(95%) contrast(101%);
+}
+
+.map-dot {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: var(--white);
+    border: 3px solid var(--accent-cyan);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--accent-cyan);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.5);
+        opacity: 0.5;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@media (max-width: 768px) {
+    .container-indicator {
+        flex-direction: column-reverse;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.energy-efficiency {
+    font-family: "Noto Kufi Arabic", sans-serif;
+    direction: rtl;
+    padding: 60px 20px;
+    background-color: #f9f9f9;
+    text-align: center;
+}
+
+.section-title {
+    font-family: "Noto Kufi Arabic", sans-serif;
+    color: navy;
+    font-size: 2.6rem;
+    margin-bottom: 40px;
+    font-weight: bolder;
+}
+
+.container-energy {
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+    flex-wrap: wrap;
+}
+
+.main {
+    font-family: "Noto Kufi Arabic", sans-serif;
+}
+
+.card-energy {
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    /* صغرت الـ radius شوية عشان يناسب الحجم الجديد */
+    padding: 30px 20px;
+    /* تقليل المسافات الداخلية للنصف تقريباً */
+    width: 280px;
+    /* تقليل العرض من 350px إلى 280px */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    transition: transform 0.4s ease;
+}
+
+.card-energy:hover {
+    transform: translateY(-5px);
+
+    box-shadow: 20px 20px 20px 20px #1be9040d;
+}
+
+.icon-wrapper i {
+    font-size: xx-large;
+    line-height: 60px;
+    font-weight: 900;
+    color: #00964e;
+}
+
+
+.icon-wrapper i {
+    display: inline-block;
+
+    transition: transform 0.3s ease;
+    animation: pulse-animation 0.8s infinite ease-in-out;
+
+
+}
+
+.icon-wrapper:hover i {
+    transform: translateY(-10px);
+
+    color: #007bff;
+
+}
+
+@keyframes pulse-animation {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.card-energy h3 {
+    color: navy;
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+    font-weight: bolder;
+    font-family: "Noto Kufi Arabic", sans-serif;
+}
+
+.card-energy p {
+    color: #666;
+    padding-top: 10px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-align: center;
+}
