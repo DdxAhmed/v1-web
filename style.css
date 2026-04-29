@@ -19,7 +19,7 @@ body {
 #preloader {
     position: fixed;
     width: 100%;
-    background: rgb(0, 0, 0) url(/asst/Renewable\ energy.gif) center no-repeat;
+    background: rgb(0, 0, 0) url(Renewable\ energy.gif) center no-repeat;
     background-size: 100px;
     z-index: 9999999999;
     height: 100vh;
@@ -29,6 +29,48 @@ body {
 
 html {
     scroll-behavior: smooth;
+    /* Firefox Cross-Browser Compatibility */
+    scrollbar-width: thin;
+    scrollbar-color: #00e5ff transparent;
+}
+
+/* =========================================
+   Ultra-Modern Glowing Neon Scrollbar
+========================================= */
+
+/* Width and height of the scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+    /* For horizontal scrollbars */
+}
+
+/* Scrollbar Track (Background) */
+::-webkit-scrollbar-track {
+    background: rgba(15, 23, 42, 0.4);
+    border-radius: 50vw;
+}
+
+/* Scrollbar Thumb (The draggable neon pill) */
+::-webkit-scrollbar-thumb {
+    background-color: #00e5ff;
+    border-radius: 50vw;
+    /* The Trick: Transparent border combined with padding-box background clip 
+       makes the thumb physically thinner than the track width */
+    border: 2px solid transparent;
+    background-clip: padding-box;
+}
+
+/* Hover State for Thumb (Glow Effect Simulation) */
+::-webkit-scrollbar-thumb:hover {
+    background-color: #00ffff;
+    /* Expanding the clip slightly on hover to simulate glow/interaction */
+    border: 1px solid transparent;
+}
+
+/* Corner where vertical and horizontal scrollbars intersect */
+::-webkit-scrollbar-corner {
+    background: transparent;
 }
 
 :root {
@@ -571,7 +613,7 @@ body.dark-mode .overlay {
 }
 
 .egypt-map {
-    width: 100%;
+    width: 120%;
     max-width: 500px;
     filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.3)) brightness(1.2);
     filter: invert(48%) sepia(79%) saturate(2476%) hue-rotate(150deg) brightness(95%) contrast(101%);
@@ -707,10 +749,64 @@ body.dark-mode .overlay {
     font-family: "Noto Kufi Arabic", sans-serif;
 }
 
+
 .card-energy p {
     color: #666;
     padding-top: 10px;
     font-size: 1.2rem;
     font-weight: bold;
     text-align: center;
+}
+
+/* Extracted from index.html */
+.hero-section {
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    /* تأكد إن الخلفية هنا شفافة عشان متغطيش على الفيديو */
+    background: transparent !important;
+}
+
+.back-video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    /* ارفع الـ z-index لحاجة سالبة بس واضحة */
+    z-index: -2;
+    object-fit: cover;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* z-index بين الفيديو والمحتوى */
+    z-index: -1;
+    background: rgba(0, 0, 0, 0.4);
+    transition: background 0.4s ease;
+}
+
+/* في حالة الـ Dark Mode تأكد إن الـ Body مش واخد خلفية بتغطي الـ Hero */
+body.dark-mode .hero-section {
+    background: transparent !important;
+}
+
+.content {
+    position: relative;
+    z-index: 1;
+    /* عشان الكلام يظهر فوق كل حاجة */
+}
+
+body.dark-mode header {
+    background: rgba(15, 23, 42, 0.7);
+    backdrop-filter: blur(15px);
+    border-bottom: 1px solid rgba(59, 130, 246, 0.2);
 }

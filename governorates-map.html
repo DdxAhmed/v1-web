@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Governorates Overview</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --map-fill: #1e293b;
+            --map-stroke: #334155;
+            --map-hover: #3b82f6;
+            --text-color: #f8fafc;
+            --tooltip-bg: rgba(15, 23, 42, 0.9);
+            --tooltip-border: #3b82f6;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        .header {
+            position: absolute;
+            top: 2rem;
+            text-align: center;
+            z-index: 10;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 0;
+            background: linear-gradient(to right, #60a5fa, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.025em;
+        }
+
+        .header p {
+            color: #94a3b8;
+            margin-top: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        #map-container {
+            width: 100%;
+            max-width: 1000px;
+            height: 80vh;
+            position: relative;
+        }
+
+        svg {
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.3));
+        }
+
+        .governorate {
+            fill: var(--map-fill);
+            stroke: var(--map-stroke);
+            stroke-width: 1px;
+            stroke-linejoin: round;
+            transition: fill 0.3s ease, stroke-width 0.3s ease;
+            cursor: pointer;
+        }
+
+        .governorate:hover {
+            fill: var(--map-hover);
+            stroke: #fff;
+            stroke-width: 2px;
+        }
+
+        #tooltip {
+            position: absolute;
+            background: var(--tooltip-bg);
+            color: var(--text-color);
+            padding: 0.75rem 1.25rem;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s ease, transform 0.1s ease;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--tooltip-border);
+            backdrop-filter: blur(4px);
+            z-index: 100;
+            transform: translate(-50%, -150%);
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Governorates Overview</h1>
+        <p>Interactive Vector Map</p>
+    </div>
+
+    <div id="map-container">
+        <svg id="map"></svg>
+    </div>
+    <div id="tooltip"></div>
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://unpkg.com/topojson-client@3"></script>
+    <script>
+        const width = 1000;
+        const height = 800;
+
+        const svg = d3.select("#map")
+            .attr("viewBox", `0 0 ${width} ${height}`)
+            .attr("preserveAspectRatio", "xMidYMid meet");
+
+        const mapGroup = svg.append("g");
+        
+        const tooltip = d3.select("#tooltip");
+
+        const dataUrl = "https://raw.githubusercontent.com/wmgeolab/geoBoundaries/9469f09/releaseData/gbOpen/EGY/ADM1/geoBoundaries-EGY-ADM1.topojson";
+
+        d3.json(dataUrl).then(topoData => {
+            // Find the correct feature collection key dynamically
+            const featureKey = Object.keys(topoData.objects)[0];
+            const governorates = topojson.feature(topoData, topoData.objects[featureKey]);
+
+            // Fit the projection to our container
+            const projection = d3.geoMercator()
+                .fitSize([width * 0.9, height * 0.9], governorates);
+
+            const path = d3.geoPath().projection(projection);
+
+            mapGroup.selectAll("path")
+                .data(governorates.features)
+                .join("path")
+                .attr("class", "governorate")
+                .attr("d", path)
+                .on("mouseover", function(event, d) {
+                    const name = d.properties.shapeName || d.properties.shapeGroup || d.properties.name || d.properties.NAME_1 || "Unknown Governorate";
+                    
+                    tooltip.transition()
+                        .duration(200)
+                        .style("opacity", 1);
+                    
+                    tooltip.html(name)
+                        .style("left", (event.pageX) + "px")
+                        .style("top", (event.pageY) + "px");
+                        
+                    d3.select(this).raise();
+                })
+                .on("mousemove", function(event) {
+                    tooltip.style("left", (event.pageX) + "px")
+                        .style("top", (event.pageY) + "px");
+                })
+                .on("mouseout", function() {
+                    tooltip.transition()
+                        .duration(500)
+                        .style("opacity", 0);
+                        
+                    // Re-order paths to maintain default z-index
+                    mapGroup.selectAll("path").order();
+                });
+                
+        }).catch(error => {
+            console.error("Error loading map data:", error);
+            document.querySelector('.header p').textContent = 'Error loading map data. Please check the console.';
+        });
+    </script>
+</body>
+</html>
